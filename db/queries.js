@@ -45,6 +45,14 @@ async function deleteComment(id) {
   await pool.query("DELETE FROM commnts WHERE id = $1", [id]);
 }
 
+async function signUpUser(username, email, password) {
+  const rows = await pool.query(
+    "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
+    [username, email, password],
+  );
+  return rows;
+}
+
 module.exports = {
   getAllPosts,
   getPost,
@@ -53,4 +61,5 @@ module.exports = {
   getAllComments,
   addComment,
   deleteComment,
+  signUpUser,
 };
